@@ -8,49 +8,41 @@
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
 
-    <v-container>
-      <v-img
-      src="./assets/logo.png"
-      class="mx-auto"
-      contain
-      max-height="60"
-      max-width="60"
-      ></v-img>
+    <v-container >
+      <router-link to="/"> 
+        <v-img
+        src="./assets/logo.png"
+        class="mx-auto"
+        contain
+        max-height="90"
+        max-width="90"
+        ></v-img>
+      </router-link>
     </v-container>
 
     <v-container>
-      <v-form>
+      <v-form >
               <v-text-field
                   label="Szukaj"
-                  placeholder="Szukaj"
+                  placeholder="Tytuł filmu"
               ></v-text-field>
             </v-form>
       </v-container>
 
     <v-container>
-      <v-btn rounded>
+      <v-btn rounded dark color="steel">
         Baza filmów
       </v-btn>
     </v-container>
 
-      <v-btn depressed>
+      <v-btn to="/login"  rounded depressed dark color="steel">
         Zaloguj się
       </v-btn>
   </v-app-bar>
 
   <v-main>
-  <v-container>
-        <v-row>
-          <v-col
-            v-for="n in 9"
-            :key="n"
-            cols="4"
-          >
-            <v-card height="200"></v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-main>
+    <router-view></router-view>
+  </v-main>
 
   <v-footer padless>
     <v-col
@@ -68,6 +60,5 @@
 
 <script>
   export default {
-    //
   }
 </script>
