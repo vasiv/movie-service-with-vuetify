@@ -48,9 +48,9 @@
           </v-card-text>
           <v-divider light></v-divider>
           <v-card-actions>
-            <v-btn to="/login" rounded color="black" dark>Zaloguj</v-btn>
+            <v-btn to="/login" rounded dark color="black">Zaloguj</v-btn>
             <v-spacer></v-spacer>
-            <v-btn rounded dark color="steel" @click.prevent="register()">
+            <v-btn rounded dark color="black" @click.prevent="register()">
               Załóż konto
             </v-btn>
           </v-card-actions>
@@ -88,7 +88,7 @@ export default {
         .then(({ status }) => {
           this.$store.commit("SET_NOTIFICATION", {
             display: true,
-            text: 'Your account has been successfully created! you can now login.',
+            text: 'Konto utworzone! Teraz możesz się zalogować.',
             alertClass: "danger"
           });
           this.$router.push('/login')
