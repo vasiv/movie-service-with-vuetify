@@ -4,7 +4,7 @@
                     :href=item.href
                     target="_blank">
                     <v-img v-bind:src="item.imgSrc"/>
-                    <v-card-title class="text-center"/>
+                    <v-card-title class="text-center"> {{item.title}} </v-card-title>
             </v-card>
         </v-container>
 </template>

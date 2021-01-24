@@ -21,16 +21,16 @@
     </v-container>
 
     <v-container>
-      <v-form >
+      <v-form>
               <v-text-field
                   label="Szukaj"
-                  placeholder="Tytuł filmu"
-              ></v-text-field>
+                  placeholder="Tytuł filmu">
+              </v-text-field>
             </v-form>
       </v-container>
 
     <v-container>
-      <v-btn rounded dark color="steel">
+      <v-btn rounded dark color="steel" to="movies">
         Baza filmów
       </v-btn>
     </v-container>
