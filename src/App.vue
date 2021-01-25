@@ -35,8 +35,12 @@
       </v-btn>
     </v-container>
 
-      <v-btn to="/login"  rounded depressed dark color="steel">
+      <v-btn v-if="!loggedIn" to="/login"  rounded depressed dark color="steel">
         Zaloguj się
+      </v-btn>
+
+      <v-btn v-if="loggedIn" to="/logout"  rounded depressed dark color="steel">
+        Wyloguj się
       </v-btn>
   </v-app-bar>
 
@@ -60,5 +64,10 @@
 
 <script>
   export default {
+    computed: {
+      loggedIn() {
+        return this.$store.getters.loggedIn
+      }
+    }
   }
 </script>

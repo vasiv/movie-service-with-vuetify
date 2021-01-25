@@ -10,6 +10,28 @@ Vue.config.productionTip = false
 
 Vue.use(VueAxios, axios)
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.getters.loggedIn) {
+      next({
+        name: 'login'
+      })
+    } else {
+      next()
+    }
+  } else if (to.matched.some(record => record.meta.requiresVisitor)) {
+    if (store.getters.loggedIn) {
+      next({
+        name: 'Home'
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
+
 new Vue({
   router,
   store,
