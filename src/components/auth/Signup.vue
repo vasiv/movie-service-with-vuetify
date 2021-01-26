@@ -7,19 +7,7 @@
             <v-toolbar-title>Załóż konto</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
-            <v-form>
-              <v-alert
-                :value="userExists"
-                color="error"
-                icon="warning"
-              >Użytkownik już istnieje!</v-alert>
-
-              <v-text-field
-                name="login"
-                v-model="username"
-                label="Nazwa użytkownika"
-                :rules="[rules.required]"
-              ></v-text-field>
+            <v-form action="#" @submit.prevent="register">
 
               <v-text-field
                 name="email"
@@ -44,9 +32,11 @@
                 v-model="confirm_password"
                 :error="!valid()"
               ></v-text-field>
+
             </v-form>
           </v-card-text>
           <v-divider light></v-divider>
+
           <v-card-actions>
             <v-btn to="/login" rounded dark color="black">Zaloguj</v-btn>
             <v-spacer></v-spacer>
@@ -54,6 +44,7 @@
               Załóż konto
             </v-btn>
           </v-card-actions>
+
         </v-card>
       </v-flex>
     </v-layout>
@@ -64,8 +55,6 @@
 export default {
   name: "signup",
   data: () => ({
-    userExists: false,
-    username: '', 
     email: '',
     password: "",
     confirm_password: "",
@@ -73,28 +62,19 @@ export default {
       required: value => !!value || "Required",
       email: value => {
         const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return pattern.test(value) || "Invalid e-mail.";
+        return pattern.test(value) || "Email ma niepoprawny format.";
       }
     }
   }),
   methods: {
     register() {
       if (this.valid()) {
-        this.$store.dispatch('REGISTER', {
-          username: this.username,
+        this.$store.dispatch('register', {
           email: this.email,
           password: this.password
         })
         .then(({ status }) => {
-          this.$store.commit("SET_NOTIFICATION", {
-            display: true,
-            text: 'Konto utworzone! Teraz możesz się zalogować.',
-            alertClass: "danger"
-          });
           this.$router.push('/login')
-        })
-        .catch (error => {
-          this.userExists = true;
         })
       }
     },
