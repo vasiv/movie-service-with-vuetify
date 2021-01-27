@@ -8,16 +8,25 @@ axios.defaults.baseURL = 'https://localhost:44327'
 
 export default new Vuex.Store({
   state: {
-    token: localStorage.getItem('access_token') || null
+    token: localStorage.getItem('access_token') || null,
+    movies: []
   },
 
   getters: {
     loggedIn(state) {
       return state.token !== null
+    },
+    movies(state) {
+      return state.movies
     }
   },
 
   mutations: {
+
+    retrieveMovies(state, movies) {
+      state.movies = movies
+    },
+
     retrieveToken(state, token) {
       state.token = token
     },
@@ -28,6 +37,17 @@ export default new Vuex.Store({
   },
 
   actions: {
+
+    retrieveMovies(context) {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
+      axios.get('/api/Film')
+        .then(response => {
+          context.commit('retrieveMovies', response.data.$values)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
 
     register(context, data) {
       return new Promise((resolve, reject) => {
