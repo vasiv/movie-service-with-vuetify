@@ -5,9 +5,6 @@
       shrink-on-scroll
     >
 
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
-
     <v-container >
       <router-link to="/"> 
         <v-img
@@ -39,6 +36,14 @@
         Zaloguj się
       </v-btn>
 
+      <v-btn v-if="loggedIn" to="/wantToSee"  rounded depressed dark color="steel">
+        Chcę obejrzeć
+      </v-btn>
+
+      <v-btn v-if="loggedIn" to="/watched"  rounded depressed dark color="steel">
+        Obejrzane
+      </v-btn>
+
       <v-btn v-if="loggedIn" to="/logout"  rounded depressed dark color="steel">
         Wyloguj się
       </v-btn>
@@ -53,7 +58,7 @@
       class="text-center"
       cols="12"
     >
-      {{ new Date().getFullYear() }} — <strong>IUI - Serwis Filmowy</strong>
+      {{ new Date().getFullYear() }} — <strong>PIOD - Serwis Filmowy</strong>
     </v-col>
   </v-footer>
 
@@ -67,7 +72,10 @@
     computed: {
       loggedIn() {
         return this.$store.getters.loggedIn
-      }
+      },
+      currentUser() {
+            return this.$store.getters.currentUser
+        },
     }
   }
 </script>

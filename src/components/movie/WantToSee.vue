@@ -14,11 +14,12 @@
     </div>
 </template>
 
+
 <script>
 import MovieItem from './MovieItem.vue'
 
 export default {
-    name: 'movies',
+    name: 'wantToSee',
     components: {
         MovieItem
     },
@@ -36,7 +37,7 @@ export default {
     }),
 
     created() {
-        this.$store.dispatch('retrieveMovies')
+        this.$store.dispatch('retrieveWantToMovies')
     },
 
     methods: {

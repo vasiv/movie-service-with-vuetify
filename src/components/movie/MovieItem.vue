@@ -44,7 +44,9 @@
         active-class="deep-purple accent-4 white--text"
         column
       >
-        <v-chip>Oceń</v-chip>
+        <!-- <v-chip to="/watched/add/{movie.id}">Widziałem!</v-chip> -->
+        <v-chip :id="movie.Rating" to="/watched/add/id">Widziałem!</v-chip>
+
         <v-chip>Chcę obejrzeć!</v-chip>
       </v-chip-group>
     </v-card-text>
@@ -66,5 +68,6 @@ export default {
     data: () => ({
 
   }),
+
 }
 </script>

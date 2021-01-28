@@ -14,17 +14,18 @@
     </div>
 </template>
 
+
 <script>
 import MovieItem from './MovieItem.vue'
 
 export default {
-    name: 'movies',
+    name: 'watched',
     components: {
         MovieItem
     },
     computed: {
         movies() {
-            return this.$store.getters.movies
+            return this.$store.getters.watchedMovies
         },
         pageOfMovies() {
             return this.movies.slice((this.page - 1) * 5, this.page * 5)
@@ -36,7 +37,7 @@ export default {
     }),
 
     created() {
-        this.$store.dispatch('retrieveMovies')
+        this.$store.dispatch('retrieveWatchedMovies')
     },
 
     methods: {

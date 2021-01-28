@@ -9,6 +9,7 @@ axios.defaults.baseURL = 'https://localhost:44327'
 export default new Vuex.Store({
   state: {
     token: localStorage.getItem('access_token') || null,
+    currentUser: localStorage.getItem('current_user') || null,
     movies: []
   },
 
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     },
     movies(state) {
       return state.movies
+    },
+    currentUser(state) {
+      return state.currentUser
     }
   },
 
@@ -27,12 +31,14 @@ export default new Vuex.Store({
       state.movies = movies
     },
 
-    retrieveToken(state, token) {
+    retrieveToken(state, token, username) {
       state.token = token
+      state.currentUser = username
     },
 
     destroyToken(state) {
       state.token = null
+      state.currentUser = null
     }
   },
 
@@ -41,6 +47,39 @@ export default new Vuex.Store({
     retrieveMovies(context) {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
       axios.get('/api/Film')
+        .then(response => {
+          context.commit('retrieveMovies', response.data.$values)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    retrieveWantToMovies(context) {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
+      axios.get('/api/Film')
+        .then(response => {
+          context.commit('retrieveMovies', response.data.$values)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    retrieveWatchedMovies(context) {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
+      axios.get('api/Film/MyFilmsWatched')
+        .then(response => {
+          context.commit('retrieveMovies', response.data.$values)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    addToMyMovies(context, data) {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
+      axios.get('api/Film/AddToMyFilms?idFilm=' + data.movieId)
         .then(response => {
           context.commit('retrieveMovies', response.data.$values)
         })
@@ -80,8 +119,10 @@ export default new Vuex.Store({
         axios.post('/Token', qs.stringify(payload))
         .then(response => {
           const token = response.data.access_token
+          const currentUser = response.data.userName
           localStorage.setItem('access_token', token)
-          context.commit('retrieveToken', token)
+          localStorage.setItem('current_user', currentUser)
+          context.commit('retrieveToken', token, currentUser)
           resolve(response)
         })
         .catch(error => {
@@ -98,11 +139,13 @@ export default new Vuex.Store({
           axios.post('/api/Account/Logout')
           .then(response => {
             localStorage.removeItem('access_token')
+            localStorage.removeItem('current_user')
             context.commit('destroyToken')
             resolve(response)
           })
           .catch(error => {
             localStorage.removeItem('access_token')
+            localStorage.removeItem('current_user')
             context.commit('destroyToken')
             reject(error)
           })
