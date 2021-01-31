@@ -20,22 +20,26 @@
     <v-container>
       <v-form>
         <v-text-field
+          v-model="movieTitle"
           label="Szukaj"
           placeholder="Tytuł filmu">
         </v-text-field>
       </v-form>
     </v-container>
 
-
-
     <v-container>
-      <v-btn v-if="loggedIn" to="/search" rounded depressed dark color="steel">
-        Szukaj
+
+      <v-btn 
+      rounded 
+      dark color="steel" 
+      :to="{ path: '/search/'+ movieTitle}">
+      Szukaj
       </v-btn>
 
       <v-btn rounded dark color="steel" to="movies">
         Baza filmów
       </v-btn>
+
     </v-container>
 
     <v-btn v-if="!loggedIn" to="/login"  rounded depressed dark color="steel">
@@ -72,17 +76,24 @@
   </v-app>
 </template>
 
-
-
 <script>
   export default {
+
+    data: () => ({
+      movieTitle: ""
+    }),
+
+    created() {
+      movieTitle: ""
+    },
+
     computed: {
       loggedIn() {
         return this.$store.getters.loggedIn
       },
       currentUser() {
-            return this.$store.getters.currentUser
-        },
+        return this.$store.getters.currentUser
+      },
     }
   }
 </script>

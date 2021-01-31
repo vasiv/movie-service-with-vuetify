@@ -48,7 +48,7 @@ export default new Vuex.Store({
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
       axios.get('/api/Film')
         .then(response => {
-          context.commit('retrieveMovies', response.data.$values)
+          context.commit('retrieveMovies', response.data)
         })
         .catch(error => {
           console.log(error)
@@ -59,7 +59,7 @@ export default new Vuex.Store({
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
       axios.get('api/Film/MyFilmsNotWatched')
         .then(response => {
-          context.commit('retrieveMovies', response.data.$values)
+          context.commit('retrieveMovies', response.data)
         })
         .catch(error => {
           console.log(error)
@@ -70,7 +70,7 @@ export default new Vuex.Store({
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
       axios.get('api/Film/MyFilmsWatched')
         .then(response => {
-          context.commit('retrieveMovies', response.data.$values)
+          context.commit('retrieveMovies', response.data)
         })
         .catch(error => {
           console.log(error)
@@ -82,7 +82,6 @@ export default new Vuex.Store({
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
       axios.get('api/Film/AddToMyFilms?idFilm=' + data.movieId)
         .then(response => {
-          context.commit('addToMyMovies', response.data.$values)
         })
         .catch(error => {
           console.log(error)
@@ -94,7 +93,7 @@ export default new Vuex.Store({
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
       axios.get('api/Film/SetWatched?idFilm=' + data.movieId)
         .then(response => {
-          context.commit('setAsWatched', response.data.$values)
+          context.commit('setAsWatched', response.data)
         })
         .catch(error => {
           console.log(error)
