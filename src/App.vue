@@ -19,34 +19,41 @@
 
     <v-container>
       <v-form>
-              <v-text-field
-                  label="Szukaj"
-                  placeholder="Tytuł filmu">
-              </v-text-field>
-            </v-form>
-      </v-container>
+        <v-text-field
+          label="Szukaj"
+          placeholder="Tytuł filmu">
+        </v-text-field>
+      </v-form>
+    </v-container>
+
+
 
     <v-container>
+      <v-btn v-if="loggedIn" to="/search" rounded depressed dark color="steel">
+        Szukaj
+      </v-btn>
+
       <v-btn rounded dark color="steel" to="movies">
         Baza filmów
       </v-btn>
     </v-container>
 
-      <v-btn v-if="!loggedIn" to="/login"  rounded depressed dark color="steel">
-        Zaloguj się
-      </v-btn>
+    <v-btn v-if="!loggedIn" to="/login"  rounded depressed dark color="steel">
+      Zaloguj się
+    </v-btn>
 
-      <v-btn v-if="loggedIn" to="/wantToSee"  rounded depressed dark color="steel">
-        Chcę obejrzeć
-      </v-btn>
+    <v-btn v-if="loggedIn" to="/wantToWatch"  rounded depressed dark color="steel">
+      Chcę obejrzeć
+    </v-btn>
 
-      <v-btn v-if="loggedIn" to="/watched"  rounded depressed dark color="steel">
-        Obejrzane
-      </v-btn>
+    <v-btn v-if="loggedIn" to="/watched"  rounded depressed dark color="steel">
+      Obejrzane
+    </v-btn>
 
-      <v-btn v-if="loggedIn" to="/logout"  rounded depressed dark color="steel">
-        Wyloguj się
-      </v-btn>
+    <v-btn v-if="loggedIn" to="/logout"  rounded depressed dark color="steel">
+      Wyloguj się
+    </v-btn>
+
   </v-app-bar>
 
   <v-main>
@@ -58,7 +65,7 @@
       class="text-center"
       cols="12"
     >
-      {{ new Date().getFullYear() }} — <strong>PIOD - Serwis Filmowy</strong>
+      {{ new Date().getFullYear() }} — <strong>IUI - Serwis Filmowy</strong>
     </v-col>
   </v-footer>
 

@@ -1,56 +1,69 @@
 <template>
   <v-card
-    class="mx-auto my-7"
-    max-width="374"
+class="mx-auto my-4" max-width="700"
   >
-    <template slot="progress">
-      <v-progress-linear
-        color="deep-purple"
-        height="10"
-        indeterminate
-      ></v-progress-linear>
-    </template>
+    <v-row justify="space-between">
+      <v-col cols="8">
+        <v-card-title>
+          <div>
+            <div class="headline">
+              {{movie.Name}}
+            </div>
+            <div><p> {{categories}} </p></div>
+            <div>{{movie.Director}}, {{movie.Origin}}</div>
+          </div>
+        </v-card-title>
+      </v-col>
 
-    <v-img v-bind:src="movie.ImageURL"> </v-img>
+      <v-img
+        class="shrink ma-2"
+        contain
+        height="150px"
+         v-bind:src="movie.ImageURL"
+        style="flex-basis: 125px"
+      ></v-img>
+    </v-row>
+    <v-divider dark></v-divider>
+    <v-card-actions class="pa-4">
+      Ocena w użytkowników:
+      <v-spacer></v-spacer>
+      <span class="grey--text text--lighten-2 caption mr-2">
+        ({{ movie.Rating }})
+      </span>
+      <v-rating
+        :value=movie.Rating
+        background-color="black"
+        color="yellow accent-4"
+        dense
+        half-increments
+        hover
+        readonly
+        size="14"
+      ></v-rating>
+      
+    </v-card-actions>
 
-    <v-card-title>{{movie.Name}}</v-card-title>
+        <v-card-actions class="pa-4">
+      Ocena w użytkowników:
+      <v-spacer></v-spacer>
+      <span class="grey--text text--lighten-2 caption mr-2">
+        ({{ movie.Rating }})
+      </span>
+      <v-rating
+        :value=movie.Rating
+        background-color="black"
+        color="yellow accent-4"
+        dense
+        half-increments
+        hover
+        size="14"
+      ></v-rating>
+      
+    </v-card-actions>
 
-    <v-card-text>
-      <v-row
-        align="center"
-        class="mx-0"
-      >
-        <v-rating
-          :value=movie.Rating
-          color="amber"
-          dense
-          half-increments
-          readonly
-          size="14"
-        ></v-rating>
-
-        <div class="grey--text ml-4">
-          {{movie.Rating}}
-        </div>
-      </v-row>
-
-      <div class="my-4 subtitle-1">
-        {{movie.Director}}, {{movie.Origin}}
-      </div>
-    </v-card-text>
-
-    <v-card-text>
-      <v-chip-group
-        active-class="deep-purple accent-4 white--text"
-        column
-      >
-        <!-- <v-chip to="/watched/add/{movie.id}">Widziałem!</v-chip> -->
-        <v-chip :id="movie.Rating" to="/watched/add/id">Widziałem!</v-chip>
-
-        <v-chip>Chcę obejrzeć!</v-chip>
+    <v-chip-group active-class="deep-purple accent-4 white--text" column>
+        <v-chip :to="{ path: '/wantToWatch/add/'+ movie.Id}">Chcę obejrzeć!</v-chip>
       </v-chip-group>
-    </v-card-text>
-
   </v-card>
 </template>
 
@@ -65,9 +78,19 @@ export default {
         }
     },
 
-    data: () => ({
+    computed: {
+      categories() {
+        var movieCategories = [];
+        this.movie.Categories.$values.forEach(element => {
+          movieCategories.push(element.Name)
+        });
+        return movieCategories.join()
+      }
+    },
 
-  }),
+    data: () => ({
+      
+    })
 
 }
 </script>

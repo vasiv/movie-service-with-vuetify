@@ -55,9 +55,9 @@ export default new Vuex.Store({
         })
     },
 
-    retrieveWantToMovies(context) {
+    retrieveWantToWatchMovies(context) {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
-      axios.get('/api/Film')
+      axios.get('api/Film/MyFilmsNotWatched')
         .then(response => {
           context.commit('retrieveMovies', response.data.$values)
         })
@@ -78,10 +78,23 @@ export default new Vuex.Store({
     },
 
     addToMyMovies(context, data) {
+      console.log('siema')
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
       axios.get('api/Film/AddToMyFilms?idFilm=' + data.movieId)
         .then(response => {
-          context.commit('retrieveMovies', response.data.$values)
+          context.commit('addToMyMovies', response.data.$values)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    setAsWatched(context, data) {
+      console.log('tutaj jest  w indes ' + data.movieId)
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
+      axios.get('api/Film/SetWatched?idFilm=' + data.movieId)
+        .then(response => {
+          context.commit('setAsWatched', response.data.$values)
         })
         .catch(error => {
           console.log(error)

@@ -4,13 +4,17 @@
             <movieItem v-for="movie in pageOfMovies" :movies="movies" :key="movie.Id" :movie="movie"/>
         </div>
 
-    <div class="text-center">
-        <v-pagination
-        v-model="page"
-        :length="Math.ceil(movies.length/5)"
-        circle
-        ></v-pagination>
-    </div>
+        <div class="text-center" v-if="movies.length > 0" >
+            <v-pagination
+            v-model="page"
+            :length="Math.ceil(movies.length/5)"
+            circle
+            ></v-pagination>
+        </div>
+
+        <div class="text-center" v-if="movies.length == 0">
+            Lista filmów jest pusta!
+        </div>
     </div>
 </template>
 

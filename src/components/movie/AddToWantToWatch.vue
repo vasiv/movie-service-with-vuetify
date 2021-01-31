@@ -5,7 +5,7 @@
 <script>
 export default {
 
-    name: 'addToWatched',
+    name: 'addToWantToWatch',
 
     data: function() {
         return {
@@ -14,14 +14,8 @@ export default {
     },
 
     created: function() {
-
         this.$store.dispatch('addToMyMovies', {
             movieId: this.movieId
-        })
-        .then(response => {          
-            this.$store.dispatch('setAsWatched', {
-                movieId: this.movieId
-            }) 
         })
     }
 }

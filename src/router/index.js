@@ -5,9 +5,10 @@ import Login from '../components/auth/Login.vue'
 import Logout from '../components/auth/Logout.vue'
 import Signup from '../components/auth/Signup.vue'
 import Movies from '../components/movie/Movies.vue'
-import WantToSee from '../components/movie/WantToSee.vue'
+import WantToWatch from '../components/movie/WantToWatch.vue'
 import Watched from '../components/movie/Watched.vue'
 import AddToWatched from '../components/movie/AddToWatched.vue'
+import AddToWantToWatch from '../components/movie/AddToWantToWatch.vue'
 
 Vue.use(VueRouter)
 
@@ -44,9 +45,17 @@ const routes = [
     component: Movies
   },
   {
-    path: "/wantToSee",
-    name: "wantToSee",
-    component: WantToSee,
+    path: "/wantToWatch",
+    name: "wantToWatch",
+    component: WantToWatch,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/wantToWatch/add/:movieId",
+    name: "addToWantToWatch",
+    component: AddToWantToWatch,
     meta: {
       requiresAuth: true
     }
