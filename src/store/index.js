@@ -10,18 +10,25 @@ export default new Vuex.Store({
   state: {
     token: localStorage.getItem('access_token') || null,
     currentUser: localStorage.getItem('current_user') || null,
-    movies: []
+    movies: [],
+    recommendations: []
   },
 
   getters: {
     loggedIn(state) {
       return state.token !== null
     },
+    recommendations(state) {
+      return state.recommendations
+    },
     movies(state) {
       return state.movies
     },
     currentUser(state) {
       return state.currentUser
+    },
+    token(state) {
+      return state.token
     }
   },
 
@@ -31,6 +38,10 @@ export default new Vuex.Store({
       state.movies = movies
     },
 
+    retrieveRecommendations(state, recommendations) {
+      state.recommendations = recommendations
+    },
+    
     retrieveToken(state, token, username) {
       state.token = token
       state.currentUser = username
@@ -43,6 +54,17 @@ export default new Vuex.Store({
   },
 
   actions: {
+
+    retrieveRecommendations(context) {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
+      axios.get('api/Film/Recomended')
+        .then(response => {
+          context.commit('retrieveRecommendations', response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
 
     retrieveMovies(context) {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token

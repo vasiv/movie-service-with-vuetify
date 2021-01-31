@@ -69,6 +69,9 @@ class="mx-auto my-4" max-width="700"
 </template>
 
 <script>
+
+import axios from 'axios'
+
 export default {
     name: 'movieItem',
 
@@ -78,6 +81,11 @@ export default {
             required: true
         }
     },
+
+    // created() {
+    //       q = this.$route.query
+    //     console.log("d dfd " + q)
+    // },
 
     computed: {
       categories() {
@@ -89,7 +97,13 @@ export default {
         return movieCategories.join()
       },
       userRating() {
-        return 3
+        const movieId = this.movie.Id
+        // axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.getters.token
+        // axios.get('api/Review?idFilm=' + movieId)
+        // .then(response => {
+        //   console.log("tutaj ocenka: " + response)
+        // })
+        return 4 + movieId
       },
       loggedIn() {
         return this.$store.getters.loggedIn

@@ -90,10 +90,7 @@
     computed: {
       loggedIn() {
         return this.$store.getters.loggedIn
-      },
-      currentUser() {
-        return this.$store.getters.currentUser
-      },
+      }
     }
   }
 </script>

@@ -1,5 +1,19 @@
 <template>
   <v-main>
+
+    <v-container v-if="loggedIn">
+      Polecane dla Ciebie:
+      <v-row>
+        <v-col
+          md="3"
+          v-for="movie in recommendations"
+          :key="movie.Id"
+          cols="4">
+          <MovieItem :movie = "movie"/>
+        </v-col>
+      </v-row>
+    </v-container>
+
     <v-container>
       <v-row>
         <v-col
@@ -11,17 +25,33 @@
         </v-col>
       </v-row>
     </v-container>
+
   </v-main>
 </template>
 
 <script>
 import NewsItem from './NewsItem.vue'
+import MovieItem from './movie/MovieItem.vue'
 
   export default {
     name: 'Home',
 
     components: {
-        NewsItem     
+        NewsItem,
+        MovieItem    
+    },
+
+    created() {
+      this.$store.dispatch('retrieveRecommendations')
+    },
+
+    computed: {
+      loggedIn() {
+        return this.$store.getters.loggedIn
+      },
+      recommendations() {
+        return this.$store.getters.recommendations.slice(0, 4)
+      }
     },
 
     data: () => ({
@@ -41,7 +71,7 @@ import NewsItem from './NewsItem.vue'
           imgSrc: 'https://fwcdn.pl/nph/867323/2021/29413_1.10.jpg',
           href: 'https://www.filmweb.pl/news/Barbara+Shelley%2C+gwiazda+film%C3%B3w+studia+Hammer%2C+nie+%C5%BCyje-140779',
         },
-      ],
+      ]
     }),
   }
 </script>
