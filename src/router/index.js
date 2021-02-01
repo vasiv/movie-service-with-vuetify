@@ -9,6 +9,7 @@ import WantToWatch from '../components/movie/WantToWatch.vue'
 import Watched from '../components/movie/Watched.vue'
 import AddToWatched from '../components/movie/AddToWatched.vue'
 import AddToWantToWatch from '../components/movie/AddToWantToWatch.vue'
+import SearchResult from '../components/movie/SearchResult.vue'
 
 Vue.use(VueRouter)
 
@@ -76,6 +77,11 @@ const routes = [
       requiresAuth: true
     }
   },
+  {
+    path: "/search/:movieTitle",
+    name: "searchResult",
+    component: SearchResult
+  }
 ]
 
 const router = new VueRouter({
