@@ -100,7 +100,6 @@ export default new Vuex.Store({
     },
 
     addToMyMovies(context, data) {
-      console.log('siema')
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
       axios.get('api/Film/AddToMyFilms?idFilm=' + data.movieId)
         .then(response => {
@@ -111,7 +110,6 @@ export default new Vuex.Store({
     },
 
     setAsWatched(context, data) {
-      console.log('tutaj jest  w indes ' + data.movieId)
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
       axios.get('api/Film/SetWatched?idFilm=' + data.movieId)
         .then(response => {

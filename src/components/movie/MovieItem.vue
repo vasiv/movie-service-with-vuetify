@@ -48,10 +48,10 @@ class="mx-auto my-4" max-width="700"
       Twoja ocena:
       <v-spacer></v-spacer>
       <span class="grey--text text--lighten-2 caption mr-2">
-        ({{ userRating }})
+        ({{ userRating1 }})
       </span>
       <v-rating
-        v-model="userRating"
+        v-model="userRating1"
         :value=userRating
         background-color="black"
         color="yellow accent-4"
@@ -59,6 +59,7 @@ class="mx-auto my-4" max-width="700"
         half-increments
         hover
         size="14"
+        @input="handleRatingChange()"
       ></v-rating>
     </v-card-actions>
 
@@ -75,6 +76,38 @@ import axios from 'axios'
 export default {
     name: 'movieItem',
 
+  methods: {
+    handleRatingChange() {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.getters.token
+      axios.get('api/Review?rating=' + this.userRating1 + '&idFilm=' + this.movie.Id)
+      .then(response => {
+          axios.get('api/Review/Update?idFilm=' + this.movie.Id)
+          axios.get('api/Film/IsInMyFilms?idFilm=' + this.movie.Id)
+          .then(response => {
+            if(response.data == 0) {
+              axios.get('api/Film/AddToMyFilms?idFilm=' + this.movie.Id)
+              .then(response => {
+                axios.get('api/Film/SetWatched?idFilm=' + this.movie.Id)   
+              })
+            } else {
+              axios.get('api/Film/MyFilmsWatched')
+                .then(response => {
+                  response.data.forEach(element => {
+                    if(this.movie.Id === element.Id) {
+                      console.log()
+                    } else {
+                      axios.get('api/Film/SetWatched?idFilm=' + this.movie.Id)   
+                    }
+                  })
+                })  
+            }
+          })
+
+
+      })
+    } 
+  },
+
     props: {
         movie: {
             type: Object,
@@ -82,15 +115,9 @@ export default {
         }
     },
 
-    // created() {
-    //       q = this.$route.query
-    //     console.log("d dfd " + q)
-    // },
-
     computed: {
       categories() {
         var movieCategories = [];
-        console.log(this.movie.Categories)
         this.movie.Categories.forEach(element => {
           movieCategories.push(element.Name)
         });
@@ -98,12 +125,19 @@ export default {
       },
       userRating() {
         const movieId = this.movie.Id
-        // axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.getters.token
-        // axios.get('api/Review?idFilm=' + movieId)
-        // .then(response => {
-        //   console.log("tutaj ocenka: " + response)
-        // })
-        return 4 + movieId
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.getters.token
+        axios.get('api/Film/MyFilmsWatched')
+        .then(response => {
+          response.data.forEach(element => {
+            if(this.movie.Id === element.Id) {
+              axios.get('api/Review?idFilm=' + movieId)
+              .then(response => {
+                this.userRating1 = response.data
+              })
+            }
+          })
+        })
+        return 0
       },
       loggedIn() {
         return this.$store.getters.loggedIn
@@ -111,7 +145,7 @@ export default {
     },
 
     data: () => ({
-      
+      userRating1: 0
     })
 
 }

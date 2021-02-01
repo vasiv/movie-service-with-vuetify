@@ -17,6 +17,10 @@ export default {
         this.$store.dispatch('addToMyMovies', {
             movieId: this.movieId
         })
+        .then(response => {
+            this.$router.back()
+        })
+        
     }
 }
 </script>
