@@ -10,7 +10,8 @@ class="mx-auto my-4" max-width="700"
               <b>{{movie.Name}}</b>
             </div>
             <div><p> {{categories}} </p></div>
-            <div>reż. {{movie.Director}}, {{movie.Origin}}</div>
+            <div>{{movie.Director}}</div>
+            <div>{{movie.Origin}}</div>
             <div>{{ movie.PremiereDate }}</div>
           </div>
         </v-card-title>
@@ -64,7 +65,9 @@ class="mx-auto my-4" max-width="700"
     </v-card-actions>
 
     <v-chip-group active-class="deep-purple accent-4 white--text" column>
-        <v-chip :to="{ path: '/wantToWatch/add/'+ movie.Id}">Chcę obejrzeć!</v-chip>
+        <v-chip v-if="!isInMyFilms" :to="{ path: '/wantToWatch/add/'+ movie.Id}">Chcę obejrzeć!</v-chip>
+        <v-chip disabled v-if="isWatched">Obejrzałeś ten film!</v-chip>
+        <v-chip disabled v-if="!isWatched && isInMyFilms">Chcesz obejrzeć ten film!</v-chip>
       </v-chip-group>
   </v-card>
 </template>
@@ -83,7 +86,7 @@ export default {
       .then(response => {
           axios.get('api/Review/Update?idFilm=' + this.movie.Id)
           axios.get('api/Film/IsInMyFilms?idFilm=' + this.movie.Id)
-          .then(response => {
+          .then(response => { 
             if(response.data == 0) {
               axios.get('api/Film/AddToMyFilms?idFilm=' + this.movie.Id)
               .then(response => {
@@ -94,17 +97,17 @@ export default {
                 .then(response => {
                   response.data.forEach(element => {
                     if(this.movie.Id === element.Id) {
-                      console.log()
                     } else {
                       axios.get('api/Film/SetWatched?idFilm=' + this.movie.Id)   
                     }
                   })
+                  axios.get('api/Film/SetWatched?idFilm=' + this.movie.Id)   
                 })  
             }
           })
-
-
       })
+      this.isWatched1 = true
+      this.isInMyFilms1 = true
     } 
   },
 
@@ -142,10 +145,36 @@ export default {
       loggedIn() {
         return this.$store.getters.loggedIn
       },
+      isWatched() {
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.getters.token
+        axios.get('api/Film/MyFilmsWatched')
+        .then(response => {
+          response.data.forEach(element => {
+            if(this.movie.Id === element.Id) {
+              this.isWatched1 = true
+            }
+          })
+        })
+        return this.isWatched1
+      },
+      isInMyFilms() {
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.getters.token
+        axios.get('api/MyFilm')
+        .then(response => {
+          response.data.forEach(element => {
+            if(this.movie.Id === element.Id) {
+              this.isInMyFilms1 = true
+            }
+          })
+        })
+        return this.isInMyFilms1
+      }
     },
 
     data: () => ({
-      userRating1: 0
+      userRating1: 0,
+      isWatched1: false,
+      isInMyFilms1: false
     })
 
 }

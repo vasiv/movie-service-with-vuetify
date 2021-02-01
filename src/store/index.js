@@ -59,7 +59,7 @@ export default new Vuex.Store({
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
       axios.get('api/Film?name=' + data.movieTitle)
         .then(response => {
-          context.commit('retrieveRecommendations', response.data)
+          context.commit('retrieveMovies', response.data)
         })
         .catch(error => {
           console.log(error)

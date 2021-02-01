@@ -1,6 +1,18 @@
 <template>
   <v-main>
 
+    <v-container>
+      <v-row>
+        <v-col
+          md="4"
+          v-for="item in news"
+          :key="item.href"
+          cols="4">
+          <NewsItem :item = "item"/>
+        </v-col>
+      </v-row>
+    </v-container>
+
     <v-container v-if="loggedIn">
       Polecane dla Ciebie:
       <v-row>
@@ -10,18 +22,6 @@
           :key="movie.Id"
           cols="4">
           <MovieItem :movie = "movie"/>
-        </v-col>
-      </v-row>
-    </v-container>
-
-    <v-container>
-      <v-row>
-        <v-col
-          md="4"
-          v-for="item in news"
-          :key="item.href"
-          cols="4">
-          <NewsItem :item = "item"/>
         </v-col>
       </v-row>
     </v-container>
